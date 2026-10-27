@@ -128,9 +128,8 @@ class Question(models.Model):
     grade = models.IntegerField(default=50)
 
     def __str__(self):
-        return "Question: " + self.question_text
+        return self.question_text
 
-    # Method to calculate if the learner gets the score of the question
     def is_get_score(self, selected_ids):
         all_answers = self.choice_set.filter(is_correct=True).count()
         selected_correct = self.choice_set.filter(
@@ -140,8 +139,7 @@ class Question(models.Model):
 
         if all_answers == selected_correct:
             return True
-        else:
-            return False
+        return False
 
 
 class Choice(models.Model):
@@ -156,9 +154,6 @@ class Choice(models.Model):
         return self.choice_text
 
 
-# One enrollment could have multiple submissions
-# One submission could have multiple choices
-# One choice could belong to multiple submissions
 class Submission(models.Model):
     enrollment = models.ForeignKey(
         Enrollment,
@@ -167,4 +162,4 @@ class Submission(models.Model):
     choices = models.ManyToManyField(Choice)
 
     def __str__(self):
-        return "Submission for " + str(self.enrollment)
+        return str(self.enrollment)
