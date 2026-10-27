@@ -9,7 +9,7 @@ class QuestionInline(admin.StackedInline):
     extra = 2
 
 class ChoiceInline(admin.StackedInline):
-    model = Question
+    model = Choice
     extra = 2
 
 class LessonInline(admin.StackedInline):
