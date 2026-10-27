@@ -118,18 +118,18 @@ class Enrollment(models.Model):
     )
     rating = models.FloatField(default=5.0)
 
-
 class Question(models.Model):
     course = models.ForeignKey(
         Course,
         on_delete=models.CASCADE
     )
-    question_text = models.CharField(max_length=200)
+    content = models.CharField(max_length=200)
     grade = models.IntegerField(default=50)
 
     def __str__(self):
-        return "Question: " + self.question_text
+        return "Question: " + self.content
 
+    # method to calculate if the learner gets the score of the question
     def is_get_score(self, selected_ids):
         all_answers = self.choice_set.filter(is_correct=True).count()
         selected_correct = self.choice_set.filter(
@@ -148,11 +148,11 @@ class Choice(models.Model):
         Question,
         on_delete=models.CASCADE
     )
-    choice_text = models.CharField(max_length=200)
+    content = models.CharField(max_length=200)
     is_correct = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.choice_text
+        return self.content
 
 
 class Submission(models.Model):
@@ -163,4 +163,4 @@ class Submission(models.Model):
     choices = models.ManyToManyField(Choice)
 
     def __str__(self):
-        return str(self.enrollment)
+        return "Submission: " + str(self.enrollment) + ", ID: " + str(self.id)
